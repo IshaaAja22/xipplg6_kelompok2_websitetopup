@@ -272,7 +272,7 @@
                     <div class="terminal-body">
                         <h3>NEED HELP?</h3>
                         <p>Chat with our admin now!</p>
-                        <a href="https://wa.me/6281234567890?text=Hello%20admin,%20I%20want%20to%20ask%20about%20top-up%20services" 
+                        <a href="https://wa.me/6285176933632?text=Hello%20admin,%20I%20want%20to%20ask%20about%20top-up%20services" 
                            class="neon-button whatsapp-btn" target="_blank">
                             <span>CHAT ADMIN</span>
                             <i class="fab fa-whatsapp"></i>
@@ -306,7 +306,7 @@
                 <div class="footer-section">
                     <h3>CONTACT INFO</h3>
                     <ul>
-                        <li><i class="fab fa-whatsapp"></i> +62 812-3456-7890</li>
+                        <li><i class="fab fa-whatsapp"></i> +62 851-7693-3632</li>
                         <li><i class="fas fa-envelope"></i> info@retrozone.com</li>
                         <li><i class="fas fa-map-marker-alt"></i> Indonesia</li>
                     </ul>
@@ -318,12 +318,95 @@
         </div>
     </footer>
 
-    <!-- WhatsApp Floating Button -->
-    <div class="whatsapp-float">
-        <a href="https://wa.me/6281234567890?text=Hello%20admin,%20I%20want%20to%20top%20up%20my%20game" target="_blank" class="pulse-btn">
-            <i class="fab fa-whatsapp"></i>
-        </a>
-    </div>
+<!-- WhatsApp Floating Button -->
+<div class="whatsapp-float">
+    <a id="waFloatBtn" href="#" target="_blank" class="pulse-btn">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+</div>
+
+<script>
+// Fungsi khusus untuk pesan cek pesanan
+function generateCheckOrderLink() {
+    const gameTitle = document.getElementById("gameTitle")?.value.trim() || "-";
+    const userId = document.getElementById("userId")?.value.trim() || "-";
+    const serverId = document.getElementById("serverId")?.value.trim() || "-";
+    const packageName = document.getElementById("package")?.value.trim() || "-";
+    const customerName = document.getElementById("customerName")?.value.trim() || "-";
+    const customerPhone = document.getElementById("customerPhone")?.value.trim() || "-";
+
+    const message = 
+`Halo admin, saya ingin mengecek pesanan saya.
+
+Nama: ${customerName}
+Game: ${gameTitle}
+User ID: ${userId}
+Server ID: ${serverId}
+Paket: ${packageName}
+Nomor HP: ${customerPhone}`;
+
+    const encodedMessage = encodeURIComponent(message);
+    return `https://wa.me/6285176933632?text=${encodedMessage}`;
+}
+
+// Event click untuk tombol floating WA
+document.getElementById("waFloatBtn").addEventListener("click", function(e) {
+    e.preventDefault();
+    const link = generateCheckOrderLink();
+    window.open(link, "_blank");
+});
+</script>
+<!-- Tambahkan ini sebelum </body> -->
+<script>
+document.getElementById("orderForm").addEventListener("submit", function(event) {
+    event.preventDefault(); // Mencegah submit default
+
+    const gameTitle = document.getElementById("gameTitle").value.trim();
+    const userId = document.getElementById("userId").value.trim();
+    const serverId = document.getElementById("serverId").value.trim() || "-";
+    const packageName = document.getElementById("package").value.trim();
+    const customerName = document.getElementById("customerName").value.trim();
+    const customerPhone = document.getElementById("customerPhone").value.trim();
+
+    if (!gameTitle || !userId || !packageName || !customerName || !customerPhone) {
+        alert("Harap isi semua data yang diperlukan!");
+        return;
+    }
+
+    // Buat template struk
+    const message = 
+`🧾 STRUK PEMBELIAN
+--------------------------------
+📅 Tanggal  : ${new Date().toLocaleDateString("id-ID")}
+🕒 Waktu    : ${new Date().toLocaleTimeString("id-ID")}
+
+🎮 Game     : ${gameTitle}
+👤 Nama     : ${customerName}
+🆔 User ID  : ${userId}
+🌐 Server ID: ${serverId}
+📦 Paket    : ${packageName}
+💰 Total    : (isi harga sesuai paket)
+💳 Pembayaran: QRIS
+
+--------------------------------
+✅ STATUS: MENUNGGU KONFIRMASI
+Kode Transaksi: #${Math.floor(Math.random()*100000)}
+
+📞 Nomor Pembeli: ${customerPhone}
+Terima kasih telah berbelanja di RetroZone 🎮
+--------------------------------`;
+
+    // Encode pesan agar aman di URL
+    const encodedMessage = encodeURIComponent(message);
+
+    // Nomor WA admin
+    const adminNumber = "6285176933632";
+
+    // Redirect ke WhatsApp
+    window.open(`https://wa.me/${adminNumber}?text=${encodedMessage}`, "_blank");
+});
+</script>
+
 
     <script src="retrozone.js"></script>
 </body>
